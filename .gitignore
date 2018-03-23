@@ -1,0 +1,13 @@
+
+/.idea/
+/.settings/
+/app/
+/dist/
+/node_modules/
+/author-signature.xml
+/SalzTransport.iml
+/.tproject
+/.manifest.tmp
+/.project
+/SalzTransport.wgt
+/signature1.xml
