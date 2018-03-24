@@ -1,0 +1,12 @@
+{
+  "files": [
+    "js/*.ts"
+  ],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "target": "es5",
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["node_modules/@types"]
+  }
+}
