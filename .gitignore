@@ -11,3 +11,5 @@
 /.project
 /SalzTransport.wgt
 /signature1.xml
+/js/config.ts
+/deploy.bat
