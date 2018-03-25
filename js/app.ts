@@ -2,6 +2,7 @@ import $ = require('jquery');
 
 import {CONFIG} from "./config";
 
+import {BackNavigation} from "./BackNavigation";
 import {Departure} from "./Departure";
 import {DepartureResponse} from "./DepartureResponse";
 
@@ -19,6 +20,9 @@ declare var tau:any; // From Tizen SDK
             list.append("<li>No endpoint / token defined</li>");
             return;
         }
+
+        // Handle hardware key input for back navigation.
+        BackNavigation.startListener();
 
         insertDummyData();
         requestDepartures(CONFIG.station);
