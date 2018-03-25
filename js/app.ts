@@ -30,10 +30,8 @@ declare var tau:any; // From Tizen SDK
 
     function mapDestinationName(name: string) {
         let response = name;
-        for (let station of CONFIG.knownStations) {
-            if (name.indexOf(station) >= 0) {
-                response = station;
-            }
+        for (let part of CONFIG.irrelevantStationNameParts) {
+            response = response.replace(part.name, part.replacement)
         }
 
         return response;
