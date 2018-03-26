@@ -1,16 +1,11 @@
 
 import angular = require('angular');
 import {CONFIG} from "../config";
-import {Departure} from "../Departure";
-import {DepartureResponse} from "../DepartureResponse";
+import {Departure} from "../model/Departure";
 import {Helper} from "../Helper";
 declare var tau: any; // From Tizen SDK
 
 interface IDepartureScope extends angular.IScope {
-    hallo: string;
-    fnk: any;
-    dep: DepartureController;
-
     departures: Departure[];
     fetched: Date;
     error: string;
@@ -18,7 +13,7 @@ interface IDepartureScope extends angular.IScope {
 
 class DepartureController {
 
-    listWidget: any = null;
+    listWidget: any;
 
     static $inject = ['$scope'];
     constructor(
@@ -40,24 +35,10 @@ class DepartureController {
                 console.info(response);
 
                 self.$scope.departures.length = 0; // Clear old data.
-                const data: DepartureResponse[] = response.data.departures as DepartureResponse[];
 
-                for (let elem of data) {
+                for (let elem of response.data.departures) {
                     console.log(elem);
-
-                    const line = elem.label;
-
-                    const destination = Helper.mapStationName(elem.destinationName);
-
-                    let time = elem.predictedTime != null ? elem.predictedTime : elem.plannedTime;
-                    let delay = time - elem.plannedTime;
-
-                    time = (new Date(time)).getTime() - (new Date()).getTime();
-                    time = Math.round(time / 1000 / 60);
-
-                    delay = delay / 1000 / 60;
-
-                    self.$scope.departures.push(new Departure(line, destination, time, delay));
+                    self.$scope.departures.push(Departure.fromServerResponse(elem));
                 }
 
                 self.$scope.fetched = new Date();
@@ -70,9 +51,7 @@ class DepartureController {
                 self.$scope.departures.length = 0;
                 self.$scope.error = JSON.stringify(data);
             })
-
     }
-
 }
 
 const moduleName = 'DepartureController';

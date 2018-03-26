@@ -1,39 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,user-scalable=no">
     <title>Circular UI</title>
     <link rel="stylesheet" media="all" href="all.css">
 </head>
 <body data-ng-app="SalzTransportTizenApp">
 
-<div class="ui-page ui-page-active" id="main"
-     data-ng-controller="DepartureController">
+<!-- ***************************************** -->
+<!-- TODO ADD Overlay before Angular is loaded -->
+<!-- ***************************************** -->
+
+<div class="ui-page ui-page-active" id="near"
+     data-ng-controller="NearController">
     <header class="ui-header">
         <h2 class="ui-title">Salz Transport</h2>
     </header>
-    <div id="locationInfo"></div>
-    <a href="#two">Link</a>
     <div class="ui-content">
-        <ul class="ui-listview" id="departure-list">
-            <li data-ng-repeat="departure in departures">
-                <span class="row1">
-                    <span class="line-name">
-                        {{departure.line}}
+        <ul class="ui-listview" id="near-list">
+            <li data-ng-repeat="nearStation in nearStations">
+                <a href="#departure">
+                    <span class="row1">
+                        {{nearStation.getNameOutput()}}
                     </span>
-                    {{departure.destination}}
-                </span>
-                <span class="row2">
-                        {{departure.getTimeOutput()}}'' {{departure.getDelayOutput()}}
+                    <span class="row2">
+                        {{ nearStation.getDistanceOutput() }}m
                     </span>
+                </a>
             </li>
         </ul>
     </div>
 </div>
 
-<div class="ui-page" id="two">
+<div class="ui-page" id="departure"
+     data-ng-controller="DepartureController">
     <div class="ui-content">
-        Second
+        <ul class="ui-listview" id="departure-list">
+            <li data-ng-repeat="departure in departures">
+                <span class="row1">
+                    <span class="line-name">
+                        {{departure.getLineOutput()}}
+                    </span>
+                    {{departure.getDestinationOutput()}}
+                </span>
+                <span class="row2">
+                    {{departure.getTimeOutput()}}'' {{departure.getDelayOutput()}}
+                </span>
+            </li>
+        </ul>
     </div>
 </div>
 

@@ -122,7 +122,7 @@ gulp.task('build', ['sass', 'scripts', 'html', 'tizen', 'images', 'typescript'])
 
 // Build the full app for deployment
 gulp.task('build-dist', function(done) {
-    runSequence('clean', 'build', 'dist', function() {
+    runSequence(/*'clean',*/ 'build', 'dist', function() {
         done();
     });
 });
