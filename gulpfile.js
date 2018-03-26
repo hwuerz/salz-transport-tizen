@@ -114,7 +114,7 @@ gulp.task('watch', function() {
     gulp.watch(jsLibs, ['lint', 'scripts']);
     gulp.watch(htmlFiles, ['html']);
     gulp.watch(tizenFiles, ['tizen']);
-    gulp.watch(['js/*.ts'], ['typescript']);
+    gulp.watch(['js/**/*.ts'], ['typescript']);
 });
 
 // Build the full app

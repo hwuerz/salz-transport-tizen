@@ -4,6 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
+    "angular": "^1.6.4",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-sass": "^3.1.0",
@@ -12,6 +13,7 @@
   },
   "devDependencies": {
     "@types/jquery": "^3.3.1",
+    "@types/angular": "^1.6.4",
     "browserify": "^16.1.1",
     "del": "^3.0.0",
     "gulp": "^3.9.1",

@@ -1,23 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width,user-scalable=no">
-	<title>Circular UI</title>
-	<link rel="stylesheet" media="all" href="all.css">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>Circular UI</title>
+    <link rel="stylesheet" media="all" href="all.css">
 </head>
-<body>
-	<div class="ui-page ui-page-active" id="main">
-		<header class="ui-header">
-			<h2 class="ui-title">SalzTransport</h2>
-		</header>
-		<div id="locationInfo"></div>
-		<div class="ui-content">
-			<ul class="ui-listview" id="departure-list">
-				<li><a href="#">Loading data...</a></li>
-			</ul>
-		</div>
-	</div>
-	<script type="text/javascript" src="lib.js"></script>
-	<script type="text/javascript" src="app.js"></script>
+<body data-ng-app="SalzTransportTizenApp">
+
+<div class="ui-page ui-page-active" id="main"
+     data-ng-controller="DepartureController">
+    <header class="ui-header">
+        <h2 class="ui-title">Salz Transport</h2>
+    </header>
+    <div id="locationInfo"></div>
+    <a href="#two">Link</a>
+    <div class="ui-content">
+        <ul class="ui-listview" id="departure-list">
+            <li data-ng-repeat="departure in departures">
+                <span class="row1">
+                    <span class="line-name">
+                        {{departure.line}}
+                    </span>
+                    {{departure.destination}}
+                </span>
+                <span class="row2">
+                        {{departure.getTimeOutput()}}'' {{departure.getDelayOutput()}}
+                    </span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="ui-page" id="two">
+    <div class="ui-content">
+        Second
+    </div>
+</div>
+
+<script type="text/javascript" src="lib.js"></script>
+<script type="text/javascript" src="app.js"></script>
 </body>
 </html>
