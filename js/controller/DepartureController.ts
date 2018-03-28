@@ -1,4 +1,4 @@
-
+import $ = require('jquery');
 import angular = require('angular');
 import {CONFIG} from "../config";
 import {Departure} from "../model/Departure";
@@ -20,8 +20,14 @@ class DepartureController {
         private $scope: IDepartureScope
     ) {
         $scope.departures = Array();
-        this.listWidget = tau.widget.SnapListview(document.querySelector("#departure-list")); // for call refresh()
-        this.requestDepartures(CONFIG.station)
+
+        const self = this;
+        document.addEventListener("pagebeforeshow", function (e) {
+            const page = $(e.target).attr('id');
+            if (page === 'departure') {
+                self.requestDepartures(CONFIG.station);
+            }
+        });
     }
 
     private requestDepartures(station: string) {
@@ -43,7 +49,7 @@ class DepartureController {
 
                 self.$scope.fetched = new Date();
                 self.$scope.$apply();
-                self.listWidget.refresh();
+                // self.listWidget.refresh();
             },
             function(data: any) {
                 console.log('Request failed');

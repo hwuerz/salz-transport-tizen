@@ -5,6 +5,7 @@ import angular = require('angular');
 import {CONFIG} from "./config";
 import {BackNavigation} from "./BackNavigation";
 import Controller from "./controller/index";
+import Directive from "./directive/index";
 
 declare var tau:any; // From Tizen SDK
 
@@ -24,7 +25,8 @@ declare var tau:any; // From Tizen SDK
         BackNavigation.startListener();
 
         const extensionApp = angular.module('SalzTransportTizenApp', [
-            Controller
+            Controller,
+            Directive
         ]);
     }
 

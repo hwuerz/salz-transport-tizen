@@ -7,6 +7,7 @@ declare var tau:any; // From Tizen SDK
 
 interface INearScope extends angular.IScope {
     nearStations: Near[];
+    controller: NearController;
     fetched: Date;
     error: string;
 }
@@ -16,14 +17,12 @@ export class NearController {
     lat: number;
     long: number;
 
-    listWidget: any;
-
     static $inject = ['$scope'];
     constructor(
         private $scope: INearScope
     ) {
         $scope.nearStations = Array();
-        this.listWidget = tau.widget.SnapListview(document.querySelector("#near-list")); // for call refresh()
+        $scope.controller = this;
         this.oneShotFunc();
     }
 
@@ -50,7 +49,7 @@ export class NearController {
 
                 self.$scope.fetched = new Date();
                 self.$scope.$apply();
-                self.listWidget.refresh();
+                // self.listWidget.refresh();
             },
             function(data: any) {
                 console.log('Request failed');

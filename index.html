@@ -15,11 +15,34 @@
 <div class="ui-page ui-page-active" id="main"
      data-ng-controller="NearController">
     <header class="ui-header">
-        <h2 class="ui-title">Salz Transport</h2>
+        <h2 class="ui-title">
+            Salz Transport
+        </h2>
     </header>
     <div class="ui-content">
         <ul class="ui-listview" id="near-list">
-            <li data-ng-repeat="nearStation in nearStations">
+            <li class="li-has-multiline">
+                <a href="#departure">
+                    <span class="row1">
+                        Dummy
+                    </span>
+                    <span class="row2">
+                        42m
+                    </span>
+                </a>
+            </li>
+            <li class="li-has-multiline">
+                <a href="#departure">
+                    <span class="row1">
+                        Dummy
+                    </span>
+                    <span class="row2">
+                        42m
+                    </span>
+                </a>
+            </li>
+            <li class="li-has-multiline"
+                data-post-render data-ng-repeat="nearStation in nearStations">
                 <a href="#departure">
                     <span class="row1">
                         {{nearStation.getNameOutput()}}
@@ -37,7 +60,9 @@
      data-ng-controller="DepartureController">
     <div class="ui-content">
         <ul class="ui-listview" id="departure-list">
-            <li data-ng-repeat="departure in departures">
+            <li>Dummy</li>
+            <li class="li-has-multiline"
+                data-post-render data-ng-repeat="departure in departures">
                 <span class="row1">
                     <span class="line-name">
                         {{departure.getLineOutput()}}

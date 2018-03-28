@@ -111,7 +111,7 @@ gulp.task('dist', [], function() {
 // Watch Files For Changes
 gulp.task('watch', function() {
     gulp.watch(sassFiles, ['sass']);
-    gulp.watch(jsLibs, ['lint', 'scripts']);
+    gulp.watch(jsLibs, ['scripts']);
     gulp.watch(htmlFiles, ['html']);
     gulp.watch(tizenFiles, ['tizen']);
     gulp.watch(['js/**/*.ts'], ['typescript']);

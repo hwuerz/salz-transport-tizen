@@ -6,10 +6,6 @@ import {CONFIG} from "./config";
 
 export class Helper {
 
-    public static list = $('#departure-list');
-    public static listWidget = tau.widget.SnapListview(document.querySelector("#departure-list")); // for call refresh()
-
-
     static request(data: object, success: any, error: any) {
         $.ajax({
             url: CONFIG.endpoint,
