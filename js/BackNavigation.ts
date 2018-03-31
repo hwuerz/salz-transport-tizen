@@ -1,4 +1,6 @@
 
+import {CONFIG} from "./config";
+
 declare var tizen:any; // From Tizen SDK
 
 export class BackNavigation {
@@ -14,7 +16,7 @@ export class BackNavigation {
                 page = document.getElementsByClassName("ui-page-active")[0];
                 pageId = page ? page.id : "";
 
-                if (pageId === "main" && !activePopup) {
+                if (pageId === CONFIG.mainPage && !activePopup) {
                     try {
                         tizen.application.getCurrentApplication().exit();
                     } catch (ignore) {

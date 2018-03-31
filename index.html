@@ -12,69 +12,34 @@
 <!-- TODO ADD Overlay before Angular is loaded -->
 <!-- ***************************************** -->
 
-<div class="ui-page ui-page-active" id="main"
-     data-ng-controller="NearController">
+<div class="ui-page" id="near">
     <header class="ui-header">
         <h2 class="ui-title">
             Salz Transport
         </h2>
     </header>
     <div class="ui-content">
-        <ul class="ui-listview" id="near-list">
-            <li class="li-has-multiline">
-                <a href="#departure">
-                    <span class="row1">
-                        Dummy
-                    </span>
-                    <span class="row2">
-                        42m
-                    </span>
-                </a>
-            </li>
-            <li class="li-has-multiline">
-                <a href="#departure">
-                    <span class="row1">
-                        Dummy
-                    </span>
-                    <span class="row2">
-                        42m
-                    </span>
-                </a>
-            </li>
-            <li class="li-has-multiline"
-                data-post-render data-ng-repeat="nearStation in nearStations">
-                <a href="#departure">
-                    <span class="row1">
-                        {{nearStation.getNameOutput()}}
-                    </span>
-                    <span class="row2">
-                        {{ nearStation.getDistanceOutput() }}m
-                    </span>
-                </a>
-            </li>
+        <ul class="ui-listview">
+            <li>Dummy</li>
         </ul>
     </div>
 </div>
 
-<div class="ui-page" id="departure"
-     data-ng-controller="DepartureController">
+<div class="ui-page" id="departure">
+    <header class="ui-header">
+        <h2 class="ui-title">
+            Salz Transport
+        </h2>
+    </header>
     <div class="ui-content">
-        <ul class="ui-listview" id="departure-list">
+        <ul class="ui-listview">
             <li>Dummy</li>
-            <li class="li-has-multiline"
-                data-post-render data-ng-repeat="departure in departures">
-                <span class="row1">
-                    <span class="line-name">
-                        {{departure.getLineOutput()}}
-                    </span>
-                    {{departure.getDestinationOutput()}}
-                </span>
-                <span class="row2">
-                    {{departure.getTimeOutput()}}'' {{departure.getDelayOutput()}}
-                </span>
-            </li>
         </ul>
     </div>
+</div>
+
+<div id="popupToast" class="ui-popup ui-popup-toast toast-text-only">
+    <div class="ui-popup-content"></div>
 </div>
 
 <script type="text/javascript" src="lib.js"></script>

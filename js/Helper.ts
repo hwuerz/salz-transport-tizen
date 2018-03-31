@@ -6,6 +6,28 @@ import {CONFIG} from "./config";
 
 export class Helper {
 
+    /**
+     * The currently displayed page.
+     * @type {string}
+     */
+    private static page = '';
+
+    /**
+     * The text element of the popup. Change the displayed text via popupText.html('YOUR-TEXT')
+     * @type {JQuery<TElement extends Node>}
+     */
+    private static popupText = $('#popupToast .ui-popup-content');
+
+    /**
+     * The tau popup.
+     * Use popup.open() and popup.close()
+     */
+    private static popup = tau.widget.Popup(document.getElementById("popupToast"));
+
+    static getCurrentPage() {
+        return Helper.page;
+    }
+
     static request(data: object, success: any, error: any) {
         $.ajax({
             url: CONFIG.endpoint,
@@ -29,5 +51,13 @@ export class Helper {
         }
 
         return response;
+    }
+
+    static showPopUp(text: string, duration: number = 3000) {
+        this.popupText.html(text);
+        this.popup.open();
+        setTimeout(() => {
+            Helper.popup.close()
+        }, duration);
     }
 }

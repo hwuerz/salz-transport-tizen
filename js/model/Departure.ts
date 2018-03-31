@@ -2,19 +2,19 @@ import {Helper} from "../Helper";
 
 export class Departure {
 
-    startStation: string;
+    private readonly startStation: string;
 
-    plannedTime: number;
+    private readonly plannedTime: number;
 
-    predictedTime: number;
+    private readonly predictedTime: number;
 
-    product: string;
+    private readonly product: string;
 
-    label: string;
+    private readonly label: string;
 
-    destinationPlace: string;
+    private readonly destinationPlace: string;
 
-    destinationName: string;
+    private readonly destinationName: string;
 
     constructor(startStation: string, plannedTime: number, predictedTime: number, product: string, label: string, destinationPlace: string, destinationName: string) {
         this.startStation = startStation;
@@ -38,15 +38,15 @@ export class Departure {
         );
     }
 
-    getLineOutput() {
+    private getLineOutput() {
         return this.label;
     }
 
-    getDestinationOutput() {
+    private getDestinationOutput() {
         return Helper.mapStationName(this.destinationName);
     }
 
-    getTimeOutput() {
+    private getTimeOutput() {
 
         const timeMilliseconds = this.getDepartureTime() - (new Date()).getTime();
         const timeMinutes = Math.round(timeMilliseconds / 1000 / 60);
@@ -58,7 +58,7 @@ export class Departure {
         return timeOutput;
     }
 
-    getDelayOutput() {
+    private getDelayOutput() {
 
         const delayMilliseconds = this.getDepartureTime() - this.plannedTime;
         const delayMinutes = Math.round(delayMilliseconds / 1000 / 60);
@@ -73,5 +73,19 @@ export class Departure {
 
     private getDepartureTime() {
         return this.predictedTime != null ? this.predictedTime : this.plannedTime;
+    }
+
+    toHtml() {
+        return `
+            <span class="row1">
+                <span class="line-name">
+                    ${this.getLineOutput()}
+                </span>
+                ${this.getDestinationOutput()}
+            </span>
+            <span class="row2">
+                ${this.getTimeOutput()}'' ${this.getDelayOutput()}
+            </span>
+        `;
     }
 }

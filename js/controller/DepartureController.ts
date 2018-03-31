@@ -1,33 +1,22 @@
-import $ = require('jquery');
-import angular = require('angular');
+
 import {CONFIG} from "../config";
 import {Departure} from "../model/Departure";
 import {Helper} from "../Helper";
+import {CompanionService} from "../service/CompanionService";
+import {ListPageController} from "./ListPageController";
 declare var tau: any; // From Tizen SDK
 
-interface IDepartureScope extends angular.IScope {
+export class DepartureController extends ListPageController {
+
     departures: Departure[];
     fetched: Date;
     error: string;
-}
 
-class DepartureController {
-
-    listWidget: any;
-
-    static $inject = ['$scope'];
-    constructor(
-        private $scope: IDepartureScope
-    ) {
-        $scope.departures = Array();
-
-        const self = this;
-        document.addEventListener("pagebeforeshow", function (e) {
-            const page = $(e.target).attr('id');
-            if (page === 'departure') {
-                self.requestDepartures(CONFIG.station);
-            }
-        });
+    onEnter() {
+        super.onEnter();
+        this.departures = Array();
+        // this.requestDepartures(CONFIG.station);
+        // Companion.createHTML("Hallo Welt");
     }
 
     private requestDepartures(station: string) {
@@ -37,30 +26,33 @@ class DepartureController {
         Helper.request({
                 station: station
             },
-            function (response: any) {
+            (response: any) => {
                 console.info(response);
 
-                self.$scope.departures.length = 0; // Clear old data.
+                self.departures.length = 0; // Clear old data.
 
                 for (let elem of response.data.departures) {
                     console.log(elem);
-                    self.$scope.departures.push(Departure.fromServerResponse(elem));
+                    const departure = Departure.fromServerResponse(elem);
+                    self.departures.push(departure);
+                    super.listAdd(departure.toHtml());
                 }
 
-                self.$scope.fetched = new Date();
-                self.$scope.$apply();
-                // self.listWidget.refresh();
+                self.fetched = new Date();
+                window.setTimeout(() => super.listRefresh(), 1000);
+                // super.listRefresh();
             },
-            function(data: any) {
+            (data: any) => {
                 console.log('Request failed');
                 console.info(JSON.stringify(data));
-                self.$scope.departures.length = 0;
-                self.$scope.error = JSON.stringify(data);
+                self.departures.length = 0;
+                self.error = JSON.stringify(data);
             })
     }
-}
 
-const moduleName = 'DepartureController';
-export default moduleName
-angular.module(moduleName, [])
-    .controller(moduleName, DepartureController);
+    private apply() {
+
+        for (let departure of this.departures) {
+        }
+    }
+}

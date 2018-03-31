@@ -33,6 +33,7 @@ var htmlFiles = [
 ];
 
 var tizenFiles = [
+    './res/**/*',
     'config.xml',
     'icon.png',
     'index.html'
@@ -71,7 +72,7 @@ gulp.task('html', function() {
 
 // Copy config files
 gulp.task('tizen', function() {
-    return gulp.src(tizenFiles)
+    return gulp.src(tizenFiles, {base: "."})
         .pipe(gulp.dest(appFolder));
 });
 

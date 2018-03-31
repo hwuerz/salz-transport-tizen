@@ -2,13 +2,13 @@ import {Helper} from "../Helper";
 
 export class Near {
 
-    id: string;
+    private readonly id: string;
 
-    destinationPlace: string;
+    private readonly destinationPlace: string;
 
-    destinationName: string;
+    private readonly destinationName: string;
 
-    distance: number;
+    private readonly distance: number;
 
     constructor(id: string, destinationPlace: string, destinationName: string, distance: number) {
         this.id = id;
@@ -21,11 +21,24 @@ export class Near {
         return new Near(obj.id, obj.destinationPlace, obj.destinationName, obj.distance);
     }
 
-    getNameOutput() {
+    private getNameOutput() {
         return Helper.mapStationName(this.destinationName);
     }
 
-    getDistanceOutput() {
+    private getDistanceOutput() {
         return Math.round(this.distance);
+    }
+
+    toHtml() {
+        return `
+            <a href="#departure">
+                <span class="row1">
+                    ${this.getNameOutput()}
+                </span>
+                <span class="row2">
+                    ${this.getDistanceOutput()}m
+                </span>
+            </a>
+        `
     }
 }

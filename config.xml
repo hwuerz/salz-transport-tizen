@@ -5,8 +5,11 @@
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.normal"/>
     <feature name="tizen.org/feature/network.internet"/>
+    <feature name="http://developer.samsung.com/tizen/feature/network.accessory_protocol"/>
     <icon src="icon.png"/>
+    <tizen:metadata key="AccessoryServicesLocation" value="res/xml/accessoryservices.xml"/>
     <name>SalzTransport</name>
+    <tizen:privilege name="http://developer.samsung.com/tizen/privilege/accessoryprotocol"/>
     <tizen:privilege name="http://tizen.org/privilege/content.read"/>
     <tizen:privilege name="http://tizen.org/privilege/content.write"/>
     <tizen:privilege name="http://tizen.org/privilege/download"/>
@@ -15,5 +18,5 @@
     <tizen:privilege name="http://tizen.org/privilege/location"/>
     <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
     <tizen:profile name="wearable"/>
-    <tizen:setting hwkey-event="enable"/>
+    <tizen:setting background-support="disable" encryption="disable" hwkey-event="enable"/>
 </widget>
