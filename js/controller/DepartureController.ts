@@ -1,58 +1,51 @@
 
-import {CONFIG} from "../config";
-import {Departure} from "../model/Departure";
 import {Helper} from "../Helper";
-import {CompanionService} from "../service/CompanionService";
 import {ListPageController} from "./ListPageController";
+import {StationDepartures} from "../model/StationDepartures";
+import {DepartureService} from "../service/DepartureService";
+
 declare var tau: any; // From Tizen SDK
 
 export class DepartureController extends ListPageController {
 
-    departures: Departure[];
-    fetched: Date;
-    error: string;
+    stationId: string = '-1';
 
-    onEnter() {
-        super.onEnter();
-        this.departures = Array();
-        // this.requestDepartures(CONFIG.station);
-        // Companion.createHTML("Hallo Welt");
-    }
+    readonly listener = (stationDepartures: StationDepartures) => {
+        if (stationDepartures.getStationId() === this.stationId) { // This is interesting
+            super.listClear();
+            for (let departure of stationDepartures.getDepartures()) {
+                super.listAdd(departure.toHtml());
+            }
+            if (stationDepartures.getDepartures().length == 0) {
+                super.listAdd("No data found");
+            }
+            super.listRefresh();
+        }
+    };
 
-    private requestDepartures(station: string) {
+    onEnter(parameters: any) {
+        super.onEnter(parameters);
 
-        const self = this;
+        if (parameters && parameters.stationId) {
+            this.loading();
+            this.stationId = parameters.stationId;
+            DepartureService.changeEvent.on(this.listener);
+            DepartureService.getDepartures(this.stationId);
 
-        Helper.request({
-                station: station
-            },
-            (response: any) => {
-                console.info(response);
-
-                self.departures.length = 0; // Clear old data.
-
-                for (let elem of response.data.departures) {
-                    console.log(elem);
-                    const departure = Departure.fromServerResponse(elem);
-                    self.departures.push(departure);
-                    super.listAdd(departure.toHtml());
-                }
-
-                self.fetched = new Date();
-                window.setTimeout(() => super.listRefresh(), 1000);
-                // super.listRefresh();
-            },
-            (data: any) => {
-                console.log('Request failed');
-                console.info(JSON.stringify(data));
-                self.departures.length = 0;
-                self.error = JSON.stringify(data);
-            })
-    }
-
-    private apply() {
-
-        for (let departure of this.departures) {
+        } else {
+            Helper.showPopUp("stationId parameter <br> is missing");
         }
     }
+
+    onLeave() {
+        super.onLeave();
+        DepartureService.changeEvent.off(this.listener);
+    }
+
+    private loading() {
+        super.listClear();
+        super.listAdd("Loading");
+        super.listRefresh();
+    }
+
 }

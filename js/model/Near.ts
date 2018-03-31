@@ -29,16 +29,18 @@ export class Near {
         return Math.round(this.distance);
     }
 
+    getId() {
+        return this.id;
+    }
+
     toHtml() {
         return `
-            <a href="#departure">
-                <span class="row1">
-                    ${this.getNameOutput()}
-                </span>
-                <span class="row2">
-                    ${this.getDistanceOutput()}m
-                </span>
-            </a>
+            <span class="row1">
+                ${this.getNameOutput()}
+            </span>
+            <span class="row2">
+                ${this.getDistanceOutput()}m
+            </span>
         `
     }
 }

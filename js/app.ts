@@ -4,7 +4,7 @@ import {CONFIG} from "./config";
 import {BackNavigation} from "./BackNavigation";
 import {Navigation} from "./Navigation";
 
-import {NearController} from "./controller/NearController";
+import {Location} from "./model/Location";
 import {DepartureController} from "./controller/DepartureController";
 import {PageController} from "./controller/PageController";
 import {Departure} from "./model/Departure";
@@ -14,6 +14,7 @@ import {LocationService} from "./service/LocationService";
 import {NearService} from "./service/NearService";
 
 declare var tau:any; // From Tizen SDK
+declare var webapis:any; // From Tizen SDK
 
 (function () {
 
@@ -51,6 +52,10 @@ declare var tau:any; // From Tizen SDK
 
         CompanionService.connect();
 
+        // The app is running in the browser. Simulate a location.
+        if (typeof webapis === 'undefined') {
+            LocationService.setLocation(new Location(CONFIG.debugLocation.latitude, CONFIG.debugLocation.longitude, 10, (new Date()).getTime()));
+        }
 
         // Helper.showPopUp("Init");
 

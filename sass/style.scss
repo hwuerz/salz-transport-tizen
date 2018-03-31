@@ -7,6 +7,10 @@ body {
     background-color:#222;
 }
 
+.ui-listview {
+	overflow: hidden;
+}
+
 .contents {
 	display: flex;
 	display: -webkit-flex;

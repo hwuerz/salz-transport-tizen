@@ -2,7 +2,7 @@ export abstract class PageController {
 
     pageName: string;
 
-    abstract onEnter(): void;
+    abstract onEnter(parameters: any): void;
     abstract onLeave(): void;
 
     constructor(pageName: string) {

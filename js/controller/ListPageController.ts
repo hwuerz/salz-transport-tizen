@@ -16,7 +16,7 @@ export abstract class ListPageController extends PageController {
         this.list = $('#' + pageName).find('.ui-listview');
     }
 
-    onEnter() {
+    onEnter(parameters: any) {
         this.createListHelper();
     }
 
@@ -46,7 +46,14 @@ export abstract class ListPageController extends PageController {
         this.list.html('');
     }
 
-    protected listAdd(content: string) {
-        const elem = this.list.append("<li>" + content + "</li>");
+    protected listAdd(content: string, handler: {(event: Event): void} = undefined) {
+        const elem = $("<li>" + content + "</li>");
+        elem.appendTo(this.list);
+        console.log("Added", elem);
+        if (handler) {
+            elem.on("click", (evt) => {
+                handler(event);
+            })
+        }
     }
 }

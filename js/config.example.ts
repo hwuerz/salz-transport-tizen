@@ -5,7 +5,10 @@ const CONFIG = {
     mainPage: 'departure',
     endpoint: 'https://YOUR-ID.execute-api.eu-west-1.amazonaws.com/prod',
     token: 'YOUR-TOKEN8ZdlLVwwPpv8shJK7WBGOBa6gKKBFt',
-    station: 'YOUR-STATION-ID',
+    debugLocation: {
+        latitude: 50.106608,
+        longitude: 8.663194
+    },
     irrelevantStationNameParts: [
         new IrrelevantStationNamePart('YOUR-LONG-CITY-PREFIX','YLCP')
     ]
