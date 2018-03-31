@@ -51,7 +51,7 @@ export abstract class ListPageController extends PageController {
         elem.appendTo(this.list);
         console.log("Added", elem);
         if (handler) {
-            elem.on("click", (evt) => {
+            elem.on("click", () => {
                 handler(event);
             })
         }

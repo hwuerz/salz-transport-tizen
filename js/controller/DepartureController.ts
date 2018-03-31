@@ -8,8 +8,16 @@ declare var tau: any; // From Tizen SDK
 
 export class DepartureController extends ListPageController {
 
+    /**
+     * The station which is currently displayed by the controller
+     * @type {string}
+     */
     stationId: string = '-1';
 
+    /**
+     * The listener which handles updates in the departures for this station.
+     * @param stationDepartures
+     */
     readonly listener = (stationDepartures: StationDepartures) => {
         if (stationDepartures.getStationId() === this.stationId) { // This is interesting
             super.listClear();

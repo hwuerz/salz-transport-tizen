@@ -2,7 +2,6 @@
 import {LiteEvent} from "../event/LiteEvent";
 import {Location} from "../model/Location";
 import {CompanionService} from "./CompanionService";
-import {Helper} from "../Helper";
 
 export class LocationService {
 

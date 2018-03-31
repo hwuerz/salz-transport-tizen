@@ -5,11 +5,7 @@ import {BackNavigation} from "./BackNavigation";
 import {Navigation} from "./Navigation";
 
 import {Location} from "./model/Location";
-import {DepartureController} from "./controller/DepartureController";
-import {PageController} from "./controller/PageController";
-import {Departure} from "./model/Departure";
 import {CompanionService} from "./service/CompanionService";
-import {Helper} from "./Helper";
 import {LocationService} from "./service/LocationService";
 import {NearService} from "./service/NearService";
 

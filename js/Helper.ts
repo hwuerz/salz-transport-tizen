@@ -14,7 +14,6 @@ export class Helper {
 
     /**
      * The text element of the popup. Change the displayed text via popupText.html('YOUR-TEXT')
-     * @type {JQuery<TElement extends Node>}
      */
     private static popupText = $('#popupToast .ui-popup-content');
 
