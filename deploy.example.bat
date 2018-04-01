@@ -4,7 +4,8 @@ echo "Starting Tizen deployment"
 set TIZEN_HOME=C:\tizen-studio\
 
 set security_profile=YOUR-SECURITY-PROFILE
-set build_path=%~dp0\dist
+set build_path_dist=%~dp0\dist
+set build_path_app=%~dp0\app
 set file_name=SalzTransport.wgt
 
 set target=emulator-26101
@@ -15,6 +16,12 @@ set package_id=sRVkFYgzLa.SalzTransport
 set TIZEN_CLI=%TIZEN_HOME%tools\ide\bin\tizen.bat
 set SDB_CLI=%TIZEN_HOME%tools\sdb.exe
 
+if "%1"=="quick" (
+    set build_path=%build_path_app%
+) else (
+    set build_path=%build_path_dist%
+)
+
 if "%1"=="devices" (
     %SDB_CLI% devices
 ) else (
@@ -23,8 +30,13 @@ if "%1"=="devices" (
 	echo **********************************************************************
 	echo ***************Build**************************************************
 	echo **********************************************************************
-    echo gulp build-dist
-    gulp build-dist
+	if "%1"=="quick" (
+        echo gulp build
+        gulp build
+	) else (
+        echo gulp build-dist
+        gulp build-dist
+    )
 	
 	echo.
 	echo **********************************************************************
