@@ -42,6 +42,7 @@ export class DepartureController extends ListPageController {
     onEnter(parameters: any) {
         super.onEnter(parameters);
 
+        // Fetch departure data.
         if (parameters && parameters.stationId) {
             this.status = ListPageStatus.LOADING;
             this.listRefresh();
@@ -50,7 +51,7 @@ export class DepartureController extends ListPageController {
             DepartureService.changeEvent.on(this.listener);
             DepartureService.getDepartures(this.stationId);
 
-        } else {
+        } else { // No stationID was passed --> No departures can be fetched.
             this.status = ListPageStatus.ERROR;
             this.listRefresh();
 

@@ -25,10 +25,12 @@ export abstract class ListPageController extends PageController {
     }
 
     onEnter(parameters: any) {
+        super.onEnter(parameters);
         this.createListHelper();
     }
 
     onLeave() {
+        super.onLeave();
         this.destroyListHelper();
     }
 
@@ -93,7 +95,7 @@ export abstract class ListPageController extends PageController {
             }
         }
 
-        console.log("Displayed data in list page");
+        console.log("Displayed data in list page " + this.pageName);
     }
 
     private displayNoData() {

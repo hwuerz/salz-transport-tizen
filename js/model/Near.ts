@@ -52,7 +52,10 @@ export class Near implements ListEntry {
     }
 
     getCallback() {
-        return () => Navigation.open('departure', {stationId: this.id})
+        return () => Navigation.open('departure', {
+            title: this.getNameOutput(),
+            stationId: this.id,
+        })
     }
 
     getSortingValue() {
