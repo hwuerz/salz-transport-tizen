@@ -1,7 +1,6 @@
 
 import {ListPageController} from "./ListPageController";
 import {NearService} from "../service/NearService";
-import {Near} from "../model/Near";
 import {ListEntry} from "../model/ListEntry";
 
 declare var tau:any; // From Tizen SDK
@@ -22,9 +21,7 @@ export class NearController extends ListPageController {
         NearService.changeEvent.on(this.listener);
 
         // TODO Request a location update.
-        if (NearService.getNearStations().length == 0) {
-            super.listRefresh();
-        }
+        super.listRefresh();
     }
 
     onLeave() {
