@@ -43,9 +43,7 @@ export class DepartureService {
     static getDepartures(stationId: string) {
         if (this.stationDepartures[stationId]) {
             DepartureService.onChange.trigger(this.stationDepartures[stationId]);
-            this.requestDepartures(stationId);
-        } else {
-            this.requestDepartures(stationId);
         }
+        this.requestDepartures(stationId);
     }
 }

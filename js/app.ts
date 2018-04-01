@@ -1,7 +1,6 @@
 import $ = require('jquery');
 
 import {CONFIG} from "./config";
-import {BackNavigation} from "./BackNavigation";
 import {Navigation} from "./Navigation";
 
 import {Location} from "./model/Location";
@@ -25,9 +24,6 @@ declare var webapis:any; // From Tizen SDK
         }
 
         Navigation.init();
-
-        // Handle hardware key input for back navigation.
-        BackNavigation.startListener();
 
         LocationService.init();
 

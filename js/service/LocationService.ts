@@ -5,7 +5,7 @@ import {CompanionService} from "./CompanionService";
 
 export class LocationService {
 
-    private static location: Location;
+    private static location: Location = null;
 
     private static readonly onChange = new LiteEvent<Location>();
     public static get changeEvent() { return LocationService.onChange.expose(); }
@@ -18,7 +18,7 @@ export class LocationService {
     }
 
     static getLocation() {
-        return location;
+        return LocationService.location;
     }
 
     static setLocation(location: Location) {

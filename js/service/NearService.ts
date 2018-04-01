@@ -20,10 +20,6 @@ export class NearService {
         });
     }
 
-    static getNearStations() {
-        return this.nearStations;
-    }
-
     private static requestNear(lat: number, long: number) {
 
         const self = this;
@@ -62,34 +58,7 @@ export class NearService {
             })
     }
 
-    /*
-       private static errorCallback(error: PositionError) {
-           console.log("Request location --> ERROR");
-
-           switch (error.code) {
-               case error.PERMISSION_DENIED:
-                   Helper.showPopUp('User denied the request for Geolocation.');
-                   break;
-               case error.POSITION_UNAVAILABLE:
-                   Helper.showPopUp('Location information is unavailable.');
-                   break;
-               case error.TIMEOUT:
-                   Helper.showPopUp('The request to get user location timed out.');
-                break;
-           }
-       }
-
-       /*
-       private static oneShotFunc() {
-           if (navigator.geolocation) {
-               console.log("Request location");
-               navigator.geolocation.getCurrentPosition(
-                   position => NearService.requestNear(position.coords.latitude, position.coords.longitude),
-                   error => NearService.errorCallback(error),
-                   {maximumAge: 60000, timeout: 100000});
-           } else {
-               document.getElementById('locationInfo').innerHTML = 'Geolocation is not supported.';
-           }
-       }
-       */
+    static getNearStations() {
+        return this.nearStations;
+    }
 }

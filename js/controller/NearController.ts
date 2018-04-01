@@ -14,9 +14,8 @@ export class NearController extends ListPageController {
         for (let station of NearService.getNearStations()) {
             super.listAdd(station.toHtml(), () =>
                 Navigation.open('departure', {stationId: station.getId()}));
-
-            super.listRefresh();
         }
+        super.listRefresh();
     };
 
     onEnter(parameters: any) {
