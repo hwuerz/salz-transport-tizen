@@ -1,22 +1,20 @@
 
 import {ListPageController} from "./ListPageController";
 import {NearService} from "../service/NearService";
-import {Navigation} from "../Navigation";
 import {Near} from "../model/Near";
+import {ListEntry} from "../model/ListEntry";
 
 declare var tau:any; // From Tizen SDK
 
 export class NearController extends ListPageController {
 
-    readonly listener = (stations: Near[]) => {
-        // Helper.showPopUp("Found " + stations.length + " stations.");
-        super.listClear();
-        for (let station of NearService.getNearStations()) {
-            super.listAdd(station.toHtml(), () =>
-                Navigation.open('departure', {stationId: station.getId()}));
-        }
+    readonly listener = () => {
         super.listRefresh();
     };
+
+    getData(): ListEntry[] {
+        return NearService.getNearStations();
+    }
 
     onEnter(parameters: any) {
         super.onEnter(parameters);
@@ -25,8 +23,6 @@ export class NearController extends ListPageController {
 
         // TODO Request a location update.
         if (NearService.getNearStations().length == 0) {
-            super.listClear();
-            super.listAdd("Loading");
             super.listRefresh();
         }
     }

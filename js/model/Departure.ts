@@ -1,6 +1,7 @@
 import {Helper} from "../Helper";
+import {ListEntry} from "./ListEntry";
 
-export class Departure {
+export class Departure implements ListEntry {
 
     private readonly startStation: string;
 
@@ -38,6 +39,28 @@ export class Departure {
         );
     }
 
+    toHtml() {
+        return `
+            <span class="row1">
+                <span class="line-name">
+                    ${this.getLineOutput()}
+                </span>
+                ${this.getDestinationOutput()}
+            </span>
+            <span class="row2">
+                ${this.getTimeOutput()}'' ${this.getDelayOutput()}
+            </span>
+        `;
+    }
+
+    getCallback(): { (event: Event): void } {
+        return undefined;
+    }
+
+    getSortingValue(): number {
+        return this.getDepartureTime() - (new Date()).getTime();
+    }
+
     private getLineOutput() {
         return this.label;
     }
@@ -73,19 +96,5 @@ export class Departure {
 
     private getDepartureTime() {
         return this.predictedTime != null ? this.predictedTime : this.plannedTime;
-    }
-
-    toHtml() {
-        return `
-            <span class="row1">
-                <span class="line-name">
-                    ${this.getLineOutput()}
-                </span>
-                ${this.getDestinationOutput()}
-            </span>
-            <span class="row2">
-                ${this.getTimeOutput()}'' ${this.getDelayOutput()}
-            </span>
-        `;
     }
 }

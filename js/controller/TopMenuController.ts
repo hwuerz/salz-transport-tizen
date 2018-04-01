@@ -1,5 +1,6 @@
 
 import {ListPageController} from "./ListPageController";
+import {ListEntry} from "../model/ListEntry";
 
 export class TopMenuController extends ListPageController {
 
@@ -9,5 +10,9 @@ export class TopMenuController extends ListPageController {
 
     onLeave() {
         super.onLeave();
+    }
+
+    getData(): ListEntry[] {
+        return Array();
     }
 }

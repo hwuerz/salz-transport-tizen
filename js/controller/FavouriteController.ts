@@ -1,20 +1,20 @@
 
 import {ListPageController} from "./ListPageController";
-import {Navigation} from "../Navigation";
 import {LocationService} from "../service/LocationService";
 import {CONFIG} from "../config";
+import {ListEntry} from "../model/ListEntry";
 
 declare var tau:any; // From Tizen SDK
 
 export class FavouriteController extends ListPageController {
 
     readonly listener = () => {
-        this.display();
+        this.listRefresh();
     };
 
     onEnter(parameters: any) {
         super.onEnter(parameters);
-        this.display();
+        this.listRefresh();
         LocationService.changeEvent.on(this.listener);
     }
 
@@ -23,20 +23,7 @@ export class FavouriteController extends ListPageController {
         LocationService.changeEvent.off(this.listener);
     }
 
-    /**
-     * Displays the favourite stations ordered by their distance.
-     */
-    private display() {
-        const sorted = CONFIG
-            .favouriteStation
-            .sort((station1, station2) => station1.getDistance() - station2.getDistance());
-
-        super.listClear();
-
-        for (let station of sorted) {
-            super.listAdd(station.toHtml(), () =>
-                Navigation.open('departure', {stationId: station.getId()}));
-        }
-        super.listRefresh();
+    getData(): ListEntry[] {
+        return CONFIG.favouriteStation;
     }
 }

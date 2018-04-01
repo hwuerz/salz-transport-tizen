@@ -23,7 +23,7 @@ export class Navigation {
      * The currently displayed page.
      * @type {string}
      */
-    private static page = CONFIG.startPage;
+    private static page: string;
 
     /**
      * Object of parameters for the next page.
@@ -32,6 +32,8 @@ export class Navigation {
     private static parameters: object = null;
 
     static init() {
+
+        this.page = CONFIG.startPage;
 
         this.startPageBeforeHideListener();
 
@@ -84,6 +86,8 @@ export class Navigation {
                     }
                 } else {
                     if (window.location.hash === '') {
+                        // This is the first loaded (= start) page.
+                        // Go back to the top page.
                         Navigation.open(CONFIG.topPage);
                     } else {
                         window.history.back();
@@ -93,10 +97,21 @@ export class Navigation {
         });
     }
 
+    /**
+     * Get the currently displayed page ID.
+     * This is the id attribute of the used HTML tag.
+     * @returns {string}
+     */
     static getCurrentPage() {
         return Navigation.page;
     }
 
+    /**
+     * Opens the passed page with the passed parameters.
+     * The parameters will be passed to the new page within the onEnter method.
+     * @param {string} page The ID of the new page.
+     * @param parameters An object of parameters for the new page.
+     */
     static open(page: string, parameters: any = null) {
         this.parameters = parameters;
         console.log("Register parameter", JSON.stringify(parameters));

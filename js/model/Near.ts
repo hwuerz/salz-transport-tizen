@@ -1,7 +1,9 @@
 import {Helper} from "../Helper";
 import {LocationService} from "../service/LocationService";
+import {ListEntry} from "./ListEntry";
+import {Navigation} from "../Navigation";
 
-export class Near {
+export class Near implements ListEntry {
 
     private readonly id: string;
 
@@ -38,11 +40,30 @@ export class Near {
         return new Near(id, "", name, {latitude: latitude, longitude: longitude});
     }
 
+    toHtml() {
+        return `
+            <span class="row1">
+                ${this.getNameOutput()}
+            </span>
+            <span class="row2">
+                ${this.getDistanceOutput()}m
+            </span>
+        `
+    }
+
+    getCallback() {
+        return () => Navigation.open('departure', {stationId: this.id})
+    }
+
+    getSortingValue() {
+        return this.getDistance();
+    }
+
     private getNameOutput() {
         return Helper.mapStationName(this.destinationName);
     }
 
-    getDistance(): number {
+    private getDistance(): number {
         if (this.distance >= 0) { // This attribute is given --> Use it
             return this.distance;
         } else {
@@ -63,22 +84,6 @@ export class Near {
             return Math.round(distance);
         }
     }
-
-    getId() {
-        return this.id;
-    }
-
-    toHtml() {
-        return `
-            <span class="row1">
-                ${this.getNameOutput()}
-            </span>
-            <span class="row2">
-                ${this.getDistanceOutput()}m
-            </span>
-        `
-    }
-
 
     /**
      * Get the distance between to geo-coord.
