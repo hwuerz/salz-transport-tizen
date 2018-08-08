@@ -29,24 +29,11 @@ declare var webapis:any; // From Tizen SDK
 
         NearService.init();
 
-        // Helper.showPopUp("Init", 3000);
-
-        // CompanionService.connectEvent.on(() => {
-        //     CompanionService.fetch();
-        // });
-
-        // LocationService.changeEvent.on( (location) => {
-        //     setTimeout(() => {
-        //         const delay = (new Date()).getTime() - location.timestamp;
-        //         Helper.showPopUp("Lat=" + location.lat + " Long=" + location.long + " Delay=" + delay);
-        //     }, 0);
-        // });
-
         CompanionService.connect();
 
         // The app is running in the browser. Simulate a location.
         if (typeof webapis === 'undefined') {
-            LocationService.setLocation(new Location(CONFIG.debugLocation.latitude, CONFIG.debugLocation.longitude, 10, (new Date()).getTime()));
+            LocationService.setLocation(new Location(CONFIG.debugLocation.latitude, CONFIG.debugLocation.longitude));
         }
 
         // Helper.showPopUp("Init");

@@ -4,14 +4,14 @@ declare var tau:any; // From Tizen SDK
 declare var webapis:any; // From Tizen SDK
 
 import {Helper} from "../Helper";
-import {Location} from "../model/Location";
 import {LiteEvent} from "../event/LiteEvent";
 
 export class CompanionService {
 
+    private static channelId: number = 104;
+
     private static SAAgent: any = null;
     private static SASocket: any = null;
-    private static CHANNELID: number = 104;
     private static ProviderAppName: string = "SalzTransportProvider";
 
     private static readonly onConnect = new LiteEvent<void>();
@@ -20,8 +20,7 @@ export class CompanionService {
     private static readonly onDisconnect = new LiteEvent<void>();
     public static get disconnectEvent() { return CompanionService.onDisconnect.expose(); }
 
-    static createHTML(log_string: string)
-    {
+    static createHTML(log_string: string) {
         Helper.showPopUp(log_string);
     }
 
@@ -81,6 +80,7 @@ export class CompanionService {
     }
 
     static connect() {
+        // CompanionService.createHTML('I will connect now!');
         if (CompanionService.SASocket) {
             CompanionService.createHTML('Already connected!');
             CompanionService.onConnect.trigger();
@@ -110,22 +110,34 @@ export class CompanionService {
         }
     }
 
-    static onreceive(channelId: any, data: string) {
+    static onreceive(channelId: any, response: string) {
         try {
             // Helper.showPopUp("got location", 1000);
-            const location = Location.fromCompanionResponse(data);
-            LocationService.setLocation(location);
+            const json = JSON.parse(response);
+            const type = json.type;
+            const data = json.data;
+            if (CompanionService.listener[type]) {
+                CompanionService.listener[type](data);
+            } else {
+                Helper.showPopUp("Unhandled message of type" + type, 1000);
+            }
         } catch (e) {
             Helper.showPopUp("onreceive failed <br>" + e, 1000);
             setTimeout(() => {
-                Helper.showPopUp(data);
+                Helper.showPopUp(response);
             }, 2000)
         }
     }
 
-    static fetch() {
+    static listener: any = {};
+    static onMessage(key: string, callback: Function) {
+        CompanionService.listener[key] = callback
+    }
+
+    static send(type: string, data: string = "") {
         try {
-            CompanionService.SASocket.sendData(CompanionService.CHANNELID, "Hello Accessory!");
+            const request = JSON.stringify({type: type, data: data});
+            CompanionService.SASocket.sendData(CompanionService.channelId, request);
         } catch(err) {
             console.log("exception [" + err.name + "] msg[" + err.message + "]");
             Helper.showPopUp("exception [" + err.name + "] msg[" + err.message + "]");

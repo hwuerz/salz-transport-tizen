@@ -12,6 +12,8 @@ import {TopMenuController} from "./controller/TopMenuController";
 
 export class Navigation {
 
+    public static EXIT_APPLICATION_EVENT = 'exitApplication';
+
     private static controller: {[key: string]: PageController} = {
         'departure': new DepartureController('departure'),
         'favourite': new FavouriteController('favourite'),
@@ -81,6 +83,7 @@ export class Navigation {
 
                 if (pageId === CONFIG.topPage && !activePopup) {
                     try {
+                        document.dispatchEvent(new Event(Navigation.EXIT_APPLICATION_EVENT));
                         tizen.application.getCurrentApplication().exit();
                     } catch (ignore) {
                     }

@@ -2,8 +2,13 @@
 import {LiteEvent} from "../event/LiteEvent";
 import {Location} from "../model/Location";
 import {CompanionService} from "./CompanionService";
+import {Navigation} from "../Navigation";
 
 export class LocationService {
+
+    private static LOCATION_UPDATE_KEY = "location";
+    private static REQUEST_LOCATION_START = "requestLocationStart";
+    private static REQUEST_LOCATION_FINISH = "requestLocationFinish";
 
     private static location: Location = null;
 
@@ -11,9 +16,14 @@ export class LocationService {
     public static get changeEvent() { return LocationService.onChange.expose(); }
 
     static init() {
+        document.addEventListener(Navigation.EXIT_APPLICATION_EVENT, function() {
+            CompanionService.send(LocationService.REQUEST_LOCATION_FINISH);
+        });
+        CompanionService.onMessage(LocationService.LOCATION_UPDATE_KEY, function (jsonObject: any) {
+            LocationService.setLocation(Location.fromCompanionResponse(jsonObject));
+        });
         CompanionService.connectEvent.on(() => {
-            // Helper.showPopUp("XConnection Event", 1000);
-            CompanionService.fetch();
+            CompanionService.send(LocationService.REQUEST_LOCATION_START);
         });
     }
 
