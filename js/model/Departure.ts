@@ -27,7 +27,7 @@ export class Departure implements ListEntry {
         this.destinationName = destinationName;
     }
 
-    static fromServerResponse(obj: any) {
+    static fromCompanionResponse(obj: any) {
         return new Departure(
             obj.startStation,
             obj.plannedTime,

@@ -7,6 +7,7 @@ import {Location} from "./model/Location";
 import {CompanionService} from "./service/CompanionService";
 import {LocationService} from "./service/LocationService";
 import {NearService} from "./service/NearService";
+import {DepartureService} from "./service/DepartureService";
 
 declare var tau:any; // From Tizen SDK
 declare var webapis:any; // From Tizen SDK
@@ -28,6 +29,8 @@ declare var webapis:any; // From Tizen SDK
         LocationService.init();
 
         NearService.init();
+
+        DepartureService.init();
 
         CompanionService.connect();
 
