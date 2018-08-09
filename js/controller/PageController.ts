@@ -18,7 +18,6 @@ export abstract class PageController {
         if (parameters && parameters.title) {
             this.titleElement.html(parameters.title)
         }
-
     }
 
     onLeave() {

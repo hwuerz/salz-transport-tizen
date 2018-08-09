@@ -117,12 +117,13 @@ export class CompanionService {
             const type = json.type;
             const data = json.data;
             if (CompanionService.listener[type]) {
+                // Helper.showPopUp("Call listener for type " + type, 1000);
                 CompanionService.listener[type](data);
             } else {
                 Helper.showPopUp("Unhandled message of type" + type, 1000);
             }
         } catch (e) {
-            Helper.showPopUp("onreceive failed <br>" + e, 1000);
+            Helper.showPopUp("onreceive failed <br>" + e, 3000);
             setTimeout(() => {
                 Helper.showPopUp(response);
             }, 2000)

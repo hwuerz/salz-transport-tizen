@@ -32,7 +32,7 @@ export class Near implements ListEntry {
         }
     }
 
-    static fromServerResponse(obj: any) {
+    static fromCompanionResponse(obj: any) {
         return new Near(obj.id, obj.destinationPlace, obj.destinationName, obj.distance);
     }
 

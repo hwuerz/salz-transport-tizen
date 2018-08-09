@@ -1,61 +1,64 @@
 
-import {Helper} from "../Helper";
 import {Near} from "../model/Near";
 import {LiteEvent} from "../event/LiteEvent";
 import {LocationService} from "./LocationService";
+import {CompanionService} from "./CompanionService";
 
 export class NearService {
 
-    private static nearStations: Near[] = Array();
-    private static fetched: Date = new Date();
-    private static error: string = '';
+    private static REQUEST_NEAR = 'requestNear';
+    private static RESPONSE_NEAR = 'near';
 
+    /**
+     * The timestamp when the last near request was performed.
+     * Will be used to avoid too many requests.
+     * @type {number}
+     */
+    private static lastNearRequest = 0;
+
+    /**
+     * All near stations which are displayed at the moment.
+     */
+    private static nearStations: Near[] = Array();
+
+    /**
+     * Event which will be fired when the list of near stations becomes updated.
+     * @type {LiteEvent<Near[]>}
+     */
     private static readonly onChange = new LiteEvent<Near[]>();
+
+    /**
+     * Event which will be fired when the list of near stations becomes updated.
+     * @type {LiteEvent<Near[]>}
+     */
     public static get changeEvent() { return NearService.onChange.expose(); }
 
+    /**
+     * Setup the listener of this service.
+     */
     static init() {
         LocationService.changeEvent.on( (location) => {
-            // Helper.showPopUp("Fetch near stations");
-            this.requestNear(location.lat, location.long);
+            const now = (new Date()).getTime();
+            if (this.lastNearRequest < now - 1000 * 20) {
+                // Helper.showPopUp("Fetch near stations<br>" + this.lastNearRequest + " " + (now - 1000 * 20));
+                this.lastNearRequest = now;
+                CompanionService.send(NearService.REQUEST_NEAR);
+            }
         });
+        CompanionService.onMessage(NearService.RESPONSE_NEAR, NearService.handleNearResponse);
     }
 
-    private static requestNear(lat: number, long: number) {
-
-        const self = this;
-
-        Helper.request(
-            {
-                near: {
-                    lat: lat,
-                    long: long
-                }
-            },
-            (response: any) => {
-                console.info(response);
-
-                self.nearStations.length = 0; // Clear old data.
-
-                for (let elem of response.data.near) {
-                    console.log(elem);
-                    const nearStation = Near.fromServerResponse(elem);
-                    self.nearStations.push(nearStation);
-                }
-
-                self.fetched = new Date();
-
-                self.onChange.trigger(self.nearStations);
-            },
-            (data: any) => {
-                console.log('Request failed');
-                console.info(JSON.stringify(data));
-
-                self.nearStations.length = 0;
-                self.error = JSON.stringify(data);
-
-                self.onChange.trigger(self.nearStations);
-                Helper.showPopUp(self.error);
-            })
+    /**
+     * Handles the response from the companion app with new near stations data.
+     * @param response The parsed JSON object with the new data.
+     */
+    private static handleNearResponse(response: any) {
+        NearService.nearStations.length = 0; // Clear old data.
+        for (let elem of response) {
+            const nearStation = Near.fromCompanionResponse(elem);
+            NearService.nearStations.push(nearStation);
+        }
+        NearService.onChange.trigger(NearService.nearStations);
     }
 
     static getNearStations() {

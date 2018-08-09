@@ -17,10 +17,7 @@ export class NearController extends ListPageController {
 
     onEnter(parameters: any) {
         super.onEnter(parameters);
-
         NearService.changeEvent.on(this.listener);
-
-        // TODO Request a location update.
         super.listRefresh();
     }
 

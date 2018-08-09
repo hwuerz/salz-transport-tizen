@@ -23,6 +23,18 @@ export class Helper {
      */
     private static popup = tau.widget.Popup(document.getElementById("popupToast"));
 
+    /**
+     * A pipeline with all popup messages which should be opened.
+     * @type {any[]}
+     */
+    private static pipeline: any = [];
+
+    /**
+     * Flag whether a popup is currently displayed or not.
+     * @type {boolean}
+     */
+    private static popupOpen: boolean = false;
+
     static getCurrentPage() {
         return Helper.page;
     }
@@ -52,11 +64,33 @@ export class Helper {
         return response;
     }
 
-    static showPopUp(text: string, duration: number = 3000) {
+    private static displayFirstPopup() {
+        if (this.pipeline.length == 0) { // If no popup is left in the pipeline --> close the last one and finish.
+            Helper.popup.close();
+            this.popupOpen = false;
+            return;
+        }
+
+        // Get the first popup data.
+        const popup = this.pipeline.shift();
+        const text = popup.text;
+        const duration = popup.duration;
+
+        // Show the popup.
         this.popupText.html(text);
         this.popup.open();
         setTimeout(() => {
-            Helper.popup.close()
+            this.displayFirstPopup(); // Display the next popup in the pipeline as soon as this one is finished.
         }, duration);
+    }
+
+    static showPopUp(text: string, duration: number = 3000) {
+        this.pipeline.push({text: text, duration: duration});
+        // Only invoke rendering if no popup is currently displayed.
+        // Otherwise it will be opened automatically after the current one.
+        if (!this.popupOpen) {
+            this.popupOpen = true;
+            this.displayFirstPopup();
+        }
     }
 }
