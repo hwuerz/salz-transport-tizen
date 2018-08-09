@@ -2,8 +2,8 @@
 <resources>
     <application name="SalzTransportConsumers" >
         <serviceProfile
-                id="/salztransport/hello"
-                name="hello"
+                id="/salztransport/companion"
+                name="companion"
                 role="consumer"
                 version="1.0" >
             <supportedTransports>
@@ -13,7 +13,7 @@
             <serviceChannel
                     id="104"
                     dataRate="low"
-                    priority="low"
+                    priority="medium"
                     reliability="enable" >
             </serviceChannel>
         </serviceProfile>

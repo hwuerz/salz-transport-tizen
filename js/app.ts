@@ -8,7 +8,9 @@ import {CompanionService} from "./service/CompanionService";
 import {LocationService} from "./service/LocationService";
 import {NearService} from "./service/NearService";
 import {DepartureService} from "./service/DepartureService";
+import {Helper} from "./Helper";
 
+declare var tizen:any; // From Tizen SDK
 declare var tau:any; // From Tizen SDK
 declare var webapis:any; // From Tizen SDK
 
@@ -22,6 +24,19 @@ declare var webapis:any; // From Tizen SDK
             list.html('');
             list.append("<li>No endpoint / token defined</li>");
             return;
+        }
+
+        // The screen should not go off when using the app.
+        try {
+            tizen.power.request("SCREEN", "SCREEN_NORMAL");
+            tizen.power.setScreenStateChangeListener(function(prevState: any, currState: any) {
+                if (currState === 'SCREEN_NORMAL' && prevState === 'SCREEN_OFF') {
+                    // Reset the property. Otherwise it will go off again.
+                    tizen.power.request("SCREEN", "SCREEN_NORMAL");
+                }
+            });
+        } catch (e) {
+            Helper.showPopUp("Power Management failed");
         }
 
         Navigation.init();
