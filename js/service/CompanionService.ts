@@ -120,7 +120,7 @@ export class CompanionService {
                 // Helper.showPopUp("Call listener for type " + type, 1000);
                 CompanionService.listener[type](data);
             } else {
-                Helper.showPopUp("Unhandled message of type" + type, 1000);
+                Helper.showPopUp("Unhandled message of type " + type, 1000);
             }
         } catch (e) {
             Helper.showPopUp("onreceive failed <br>" + e, 3000);
@@ -137,6 +137,10 @@ export class CompanionService {
 
     static send(type: string, data: string = "") {
         try {
+            if (CompanionService.SASocket == null) {
+                Helper.showPopUp("No Phone connection.");
+                return;
+            }
             const request = JSON.stringify({type: type, data: data});
             CompanionService.SASocket.sendData(CompanionService.channelId, request);
         } catch(err) {

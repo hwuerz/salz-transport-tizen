@@ -8,6 +8,7 @@ import {CompanionService} from "./service/CompanionService";
 import {LocationService} from "./service/LocationService";
 import {NearService} from "./service/NearService";
 import {DepartureService} from "./service/DepartureService";
+import {ErrorService} from "./service/ErrorService";
 import {Helper} from "./Helper";
 
 declare var tizen:any; // From Tizen SDK
@@ -38,6 +39,8 @@ declare var webapis:any; // From Tizen SDK
         } catch (e) {
             Helper.showPopUp("Power Management failed");
         }
+
+        ErrorService.init();
 
         Navigation.init();
 
